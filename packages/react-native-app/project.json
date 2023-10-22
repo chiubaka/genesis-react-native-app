@@ -1,0 +1,188 @@
+{
+  "name": "react-native-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/react-native-app/src",
+  "projectType": "application",
+  "targets": {
+    "start": {
+      "executor": "@nx/react-native:start",
+      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"],
+      "options": {
+        "port": 8081
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx start react-native-app"
+      }
+    },
+    "run:ios": {
+      "executor": "@nx/react-native:run:ios",
+      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"],
+      "options": {}
+    },
+    "bundle:ios": {
+      "executor": "@nx/react-native:bundle",
+      "dependsOn": ["ensure-symlink", "sync-deps"],
+      "outputs": ["{options.bundleOutput}"],
+      "options": {
+        "entryFile": "src/main.tsx",
+        "platform": "ios",
+        "bundleOutput": "dist/packages/react-native-app/ios/main.jsbundle"
+      }
+    },
+    "run:android": {
+      "executor": "@nx/react-native:run:android",
+      "dependsOn": ["ensure-symlink", "sync-deps"],
+      "options": {}
+    },
+    "build:android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-native-app"
+      },
+      "defaultConfiguration": "release",
+      "configurations": {
+        "release": {
+          "command": "bundle exec fastlane android build"
+        },
+        "debug": {
+          "command": "bundle exec fastlane android build build_type:debug"
+        },
+        "bundle-release": {
+          "command": "bundle exec fastlane android build task:bundle"
+        },
+        "test-release": {
+          "command": "bundle exec fastlane android build build_type:release test:true"
+        },
+        "test-debug": {
+          "command": "bundle exec fastlane android build build_type:debug test:true"
+        }
+      },
+      "outputs": [
+        "{projectRoot}/android/app/build/outputs/bundle",
+        "{projectRoot}/android/app/build/outputs/apk"
+      ],
+      "dependsOn": ["ensure-symlink", "sync-deps"]
+    },
+    "build:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-native-app"
+      },
+      "defaultConfiguration": "release",
+      "configurations": {
+        "debug": {
+          "command": "bundle exec fastlane ios build configuration:debug"
+        },
+        "release": {
+          "command": "bundle exec fastlane ios build configuration:release"
+        },
+        "debug-simulator": {
+          "command": "bundle exec fastlane ios build configuration:debug simulator:true"
+        },
+        "release-simulator": {
+          "command": "bundle exec fastlane ios build configuration:release simulator:true"
+        }
+      },
+      "outputs": ["{projectRoot}/ios/build/Build"],
+      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"]
+    },
+    "pod-install": {
+      "command": "bundle exec pod install --project-directory=./ios",
+      "options": {
+        "cwd": "packages/react-native-app"
+      }
+    },
+    "bundle:android": {
+      "executor": "@nx/react-native:bundle",
+      "dependsOn": ["ensure-symlink", "sync-deps"],
+      "outputs": ["{options.bundleOutput}"],
+      "options": {
+        "entryFile": "src/main.tsx",
+        "platform": "android",
+        "bundleOutput": "dist/packages/react-native-app/android/main.jsbundle"
+      }
+    },
+    "sync-deps": {
+      "executor": "@nx/react-native:sync-deps",
+      "options": {}
+    },
+    "ensure-symlink": {
+      "executor": "@nx/react-native:ensure-symlink",
+      "options": {}
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/react-native-app"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "reports/coverage/packages/react-native-app",
+        "reports/junit/react-native-app.xml"
+      ],
+      "options": {
+        "jestConfig": "packages/react-native-app/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "test:android": {
+      "command": "bundle exec fastlane android test",
+      "options": {
+        "cwd": "packages/react-native-app"
+      },
+      "dependsOn": ["ensure-symlink", "sync-deps"]
+    },
+    "test:ios": {
+      "command": "bundle exec fastlane ios test",
+      "options": {
+        "cwd": "packages/react-native-app"
+      },
+      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"]
+    },
+    "deploy:android": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-native-app"
+      },
+      "defaultConfiguration": "beta",
+      "configurations": {
+        "beta": {
+          "command": "bundle exec fastlane android beta"
+        },
+        "production": {
+          "command": "bundle exec fastlane android deploy"
+        }
+      },
+      "dependsOn": ["ensure-symlink", "sync-deps"]
+    },
+    "deploy:ios": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-native-app"
+      },
+      "defaultConfiguration": "beta",
+      "configurations": {
+        "beta": {
+          "command": "bundle exec fastlane ios beta"
+        },
+        "production": {
+          "command": "bundle exec fastlane ios deploy"
+        }
+      },
+      "dependsOn": ["ensure-symlink", "sync-deps", "pod-install"]
+    }
+  },
+  "tags": []
+}

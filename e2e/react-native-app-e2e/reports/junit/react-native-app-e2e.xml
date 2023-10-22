@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="1" failures="0" errors="0" time="23.024">
+  <testsuite name="ReactNativeApp" errors="0" failures="0" skipped="0" timestamp="2023-10-22T07:18:30" time="22.974" tests="1">
+    <testcase classname="ReactNativeApp" name="ReactNativeApp should display welcome message" time="0.122" file="test/e2e/app.spec.ts">
+    </testcase>
+  </testsuite>
+</testsuites>

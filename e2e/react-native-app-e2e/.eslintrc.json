@@ -1,0 +1,12 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["node_modules"],
+  "overrides": [
+    {
+      "files": ["jest.config.ts", "test/**/*.ts", "*.spec.ts", "*.test.ts"],
+      "parserOptions": {
+        "project": ["e2e/react-native-app-e2e/tsconfig.spec.json"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "preset": "../../jest.preset",
+  "rootDir": ".",
+  "testMatch": [
+    "<rootDir>/test/**/*.test.ts?(x)",
+    "<rootDir>/test/**/*.spec.ts?(x)"
+  ],
+  "testTimeout": 120000,
+  "maxWorkers": 1,
+  "globalSetup": "detox/runners/jest/globalSetup",
+  "globalTeardown": "detox/runners/jest/globalTeardown",
+  "reporters": [
+    [
+      "jest-junit",
+      {
+        "addFileAttribute": "true",
+        "classNameTemplate": "{suitename}",
+        "outputDirectory": "reports/junit",
+        "outputName": "react-native-app-e2e.xml"
+      }
+    ]
+  ],
+  "testEnvironment": "detox/runners/jest/testEnvironment",
+  "verbose": true,
+  "setupFilesAfterEnv": ["<rootDir>/test/setup/setup.ts"],
+  "coverageDirectory": "../../reports/coverage/e2e/react-native-app-e2e"
+}
