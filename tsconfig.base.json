@@ -1,0 +1,10 @@
+{
+  "extends": "@chiubaka/tsconfig",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {}
+  },
+  "exclude": ["node_modules", "tmp"]
+}

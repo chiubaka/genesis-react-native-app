@@ -1,0 +1,57 @@
+{
+  "name": "@genesis/genesis-e2e",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build:affected": "nx affected --target=build",
+    "build:all": "nx run-many --target=build --all",
+    "build:ci": "./scripts/ci.sh build",
+    "deploy": "nx deploy $@ --configuration=production",
+    "deploy:ci": "yarn deploy",
+    "e2e": "nx e2e",
+    "e2e:affected": "nx affected --target=e2e",
+    "e2e:all": "nx run-many --target=e2e --all",
+    "e2e:ci": "./scripts/ci.sh e2e --ci --coverage",
+    "lint": "nx lint",
+    "lint:affected": "nx affected --target=lint",
+    "lint:all": "yarn lint:root && yarn lint:packages",
+    "lint:ci": "yarn lint:root && ./scripts/ci.sh lint",
+    "lint:fix:all": "yarn lint:fix:root; yarn lint:fix:packages",
+    "lint:fix:packages": "yarn lint:packages --fix",
+    "lint:fix:root": "yarn lint:root --fix",
+    "lint:packages": "nx run-many --target=lint --all",
+    "lint:root": "yarn eslint .",
+    "lint:staged": "lint-staged",
+    "prepare": "husky install",
+    "test:affected": "nx affected --target=test",
+    "test:all": "nx run-many --target=test --all",
+    "test:ci": "./scripts/ci.sh test --ci --coverage"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@chiubaka/nx-plugin": "0.3.0"
+  },
+  "devDependencies": {
+    "@chiubaka/eslint-config": "^0.6.3",
+    "@chiubaka/tsconfig": "^0.1.0",
+    "@nx/eslint-plugin": "16.8.1",
+    "@nx/jest": "16.8.1",
+    "@nx/workspace": "16.8.1",
+    "eslint": "^8.52.0",
+    "husky": "^8.0.3",
+    "jest": "^29.4.3",
+    "jest-junit": "^16.0.0",
+    "lint-staged": "^14.0.1",
+    "nx": "16.8.1",
+    "prettier": "^2.8.8",
+    "ts-jest": "^29.0.5",
+    "tslib": "^2.6.2",
+    "typescript": "^4.9.5"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "packageManager": "yarn@3.6.4"
+}
